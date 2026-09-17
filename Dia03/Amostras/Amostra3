@@ -1,0 +1,4 @@
+def calcular_media(valores: list[float]) -> float:
+    if not valores:
+        return 0.0
+    return sum(valores) / len(valores)
