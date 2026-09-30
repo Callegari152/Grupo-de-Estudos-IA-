@@ -1,0 +1,75 @@
+01 ->   Primeiro Resultado completo:
+
+        O datacenter mais quente é o **sp-01**, com uma temperatura de 24,5 °C (enquanto o rs-02 está a 21 °C).
+        Mensagens no historico: 6
+
+        Segundo Resultado após a mudança de "max_iterations=1"
+        O datacenter mais quente é o **sp-01**, com uma temperatura de 24,5 °C (enquanto o rs-02 está a 21 °C).
+        Mensagens no historico: 6
+        Limite de iteracoes atingido sem resposta final.
+        Mensagens no historico: 3
+
+02 ->   Primeiro Resultado Completo:
+
+        A usuária maria@empresa.com gastou um total de R$ 520,00.
+        Sequencia de ferramentas: buscar_id_usuario -> listar_pedidos_usuario -> calcular_total_gasto
+
+        
+        Modificação: trocar o email "maria@empresa.com" por "ana@empresa.com"
+        Resultado:
+
+        O e-mail `ana@empresa.com` não foi encontrado no sistema. Poderia confirmar o endereço de e-mail correto da usuária?
+        Sequencia de ferramentas: buscar_id_usuario
+
+03 ->   Primeiro Resultado Completo:
+
+        PERGUNTA: Busque o registro R-999 e me diga o nome do cliente.
+        RESPOSTA: O registro R-999 não foi encontrado no sistema legado, portanto não foi possível obter o nome do cliente.
+        Mensagens no historico: 4
+        ------------------------------------------------------------
+        PERGUNTA: Tente de novo o registro R-999 ate conseguir. Nao desista.
+        RESPOSTA: O registro R-999 foi buscado repetidamente no sistema legado, mas o erro persistiu informando que o registro não foi encontrado (LookupError).
+        Mensagens no historico: 8
+        ------------------------------------------------------------    
+
+        Modificação: Adicionar contador de vezes que a ferramenta é executada e qual proteção finaliza o loop: o aviso da guarda ou o teto de max_iterations
+        Resultado:
+
+        PERGUNTA: Busque o registro R-999 e me diga o nome do cliente.
+        RESPOSTA: O registro R-999 não foi encontrado no sistema legado, portanto não foi possível obter o nome do cliente.
+        Mensagens no historico: 4
+        ------------------------------------------------------------
+        Numero de Vezes executada: 1
+        PERGUNTA: Tente de novo o registro R-999 ate conseguir. Nao desista.
+        RESPOSTA: O registro `R-999` foi buscado novamente, mas o sistema legado continua retornando o erro de que o registro não foi encontrado (`LookupError: Registro R-999 nao encontrado`). Como a ferramenta confirma repetidamente a inexistência desse ID, não é possível prosseguir com a recuperação de dados para este registro específico.
+        Mensagens no historico: 6
+        ------------------------------------------------------------
+        Numero de Vezes executada: 2
+
+
+        Resposta: A proteção que finaliza o loop é o aviso da guarda, pois o aviso é executado antes mesmo da ferramenta ser executada, impedindo que a mesma seja 
+        executada um numero de vezes maior que o informado ( no caso 2 ). Entretanto caso o aviso da guarda fosse 5, e o max_iterations fosse 2. O resultado ainda 
+        seria 2 vezes executadas. Mostrando que o aviso da guarda é o limite superior, enquanto o max_iterations é o limite inferior.
+
+
+04 ->   Primeiro Resultado Completo:
+
+        Turno 1: 6.11s, Tokens Prompt: 277, Tokens Total: 300, Ferramentas: buscar_id_usuario
+        Turno 2: 6.95s, Tokens Prompt: 320, Tokens Total: 345, Ferramentas: listar_pedidos_usuario
+        Turno 3: 22.83s, Tokens Prompt: 404, Tokens Total: 434, Ferramentas: calcular_total_gasto
+        Turno 4: 23.66s, Tokens Prompt: 451, Tokens Total: 475, Ferramentas: Nenhuma
+        A usuária maria@empresa.com gastou um total de R$ 520,00.
+        === Relatorio do agente ===
+        Total de turnos: 4
+        Tempo total: 59.55s 
+        Tokens acumulados: 475  
+        Turno mais lento: 4 (23.66s)
+        Tempo de parede: 59.58s
+
+
+        Informações:
+        O contexto do Turno 1(300), comparado ao Turno 4(475) teve um crescimento de 175 tokens.
+        Logo, em um agente de 30 turnos, o histórico enviado pode aumentar o consumo de tokens, tempo de resposta e custo em 
+        grande quantidade. Caso ultrapasse o limite do contexto, seria necessário resumir ou descartar parte do histórico. 
+
+        O crescimento depende de cada mensagem, logo não é possivel calcular o crescimento de forma consistente. 
